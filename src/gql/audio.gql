@@ -1,0 +1,35 @@
+fragment Audios on Query {
+  audios(
+    cursor: $cursor,
+    order: $order
+  ) {
+    pageInfo {
+      ...PageInfo
+    }
+    edges {
+      node {
+        ...Audio
+      }
+      ...AudioEdges
+    }
+  }
+}
+
+fragment AudioEdges on AudioEdge {
+  node {
+    ...Audio
+  }
+}
+
+fragment Audio on Audio {
+  id
+  name
+  length
+  url
+  publishedAt
+  likeCount
+}
+
+query Audios($cursor: Cursor!, $order: [String!]) {
+  ...Audios
+}
