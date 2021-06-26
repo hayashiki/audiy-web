@@ -1,6 +1,7 @@
 fragment Audios on Query {
   audios(
     cursor: $cursor,
+    limit: $limit,
     order: $order
   ) {
     pageInfo {
@@ -30,6 +31,9 @@ fragment Audio on Audio {
   likeCount
 }
 
-query Audios($cursor: Cursor!, $order: [String!]) {
+query Audios($cursor: Cursor!, $limit: Int, $order: [String!]) {
   ...Audios
+#  version {
+#    version
+#  }
 }

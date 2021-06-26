@@ -18,6 +18,8 @@ yarn add -D @storybook/react @storybook/addon-actions @storybook/addon-backgroun
 #sh: line 10: _document: command not found
 #sh: line 10: _app: command not found
 
+yarn add nprogress
+yarn add -D @types/nprogress
 
 ---
 

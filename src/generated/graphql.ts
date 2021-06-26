@@ -162,6 +162,7 @@ export type AudioFragment = (
 
 export type AudiosQueryVariables = Exact<{
   cursor: Scalars['Cursor'];
+  limit?: Maybe<Scalars['Int']>;
   order?: Maybe<Array<Scalars['String']> | Scalars['String']>;
 }>;
 
@@ -201,7 +202,7 @@ export const AudioEdgesFragmentDoc = gql`
     ${AudioFragmentDoc}`;
 export const AudiosFragmentDoc = gql`
     fragment Audios on Query {
-  audios(cursor: $cursor, order: $order) {
+  audios(cursor: $cursor, limit: $limit, order: $order) {
     pageInfo {
       ...PageInfo
     }
@@ -217,7 +218,7 @@ export const AudiosFragmentDoc = gql`
 ${AudioFragmentDoc}
 ${AudioEdgesFragmentDoc}`;
 export const AudiosDocument = gql`
-    query Audios($cursor: Cursor!, $order: [String!]) {
+    query Audios($cursor: Cursor!, $limit: Int, $order: [String!]) {
   ...Audios
 }
     ${AudiosFragmentDoc}`;
@@ -235,6 +236,7 @@ export const AudiosDocument = gql`
  * const { data, loading, error } = useAudiosQuery({
  *   variables: {
  *      cursor: // value for 'cursor'
+ *      limit: // value for 'limit'
  *      order: // value for 'order'
  *   },
  * });
