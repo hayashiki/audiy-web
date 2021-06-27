@@ -9,10 +9,17 @@ curl https://gist.githubusercontent.com/hayashiki/3ffc6d8658c68663d2ff7bb91d291f
 
 curl https://gist.githubusercontent.com/hayashiki/3ffc6d8658c68663d2ff7bb91d291f0d/raw/c8c60af82cdccccd4e67e8179d3f4b60a15ac5c8/setup-04-layout.sh | sh
 
+curl https://gist.githubusercontent.com/hayashiki/3ffc6d8658c68663d2ff7bb91d291f0d/raw/dcfc61ae6957497f203916b4c8fab2fcbfbac075/setup-05-applo-client.sh | sh
+
+
+yarn add -D @storybook/react @storybook/addon-actions @storybook/addon-backgrounds @storybook/addon-docs @storybook/addon-knobs @storybook/addon-links @storybook/addon-storysource @storybook/addon-viewport @storybook/addons
+
 #sh: line 10: getInitialProps: command not found
 #sh: line 10: _document: command not found
 #sh: line 10: _app: command not found
 
+yarn add nprogress
+yarn add -D @types/nprogress
 
 ---
 
