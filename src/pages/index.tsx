@@ -1,9 +1,31 @@
 import { NextPage } from 'next'
-import WithLayout from '@/layouts/WithLayout'
-import Main from '@/layouts/components/Main'
+import { Paper } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    height: '100%',
+    width: '100%',
+  },
+  toolbar: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+  },
+}))
 const Index: NextPage = () => {
-  return <div>hoge</div>
+  const classes = useStyles()
+
+  return (
+    <>
+      <div className={classes.toolbar} />
+      MyContent will be shifted downwards by the div above. If you remove the div, your content will
+      disappear under the app bar.
+    </>
+  )
 }
 
 const Body = () => {
