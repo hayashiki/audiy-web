@@ -9,7 +9,7 @@ import TopBar from '@/components/Topbar'
 import { ApolloProvider } from '@apollo/client'
 import { configureNProgress } from '@/lib/ngprogressConfig'
 
-configureNProgress();
+configureNProgress()
 
 function App({ Component, pageProps }: AppProps): JSX.Element {
   const apolloClient = useApollo(pageProps.initialApolloState)

@@ -1,5 +1,12 @@
 import { useMemo } from 'react'
-import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, makeVar, NormalizedCacheObject } from '@apollo/client'
+import {
+  ApolloClient,
+  ApolloLink,
+  HttpLink,
+  InMemoryCache,
+  makeVar,
+  NormalizedCacheObject,
+} from '@apollo/client'
 import { AudioFragment } from '@/generated/graphql'
 
 export const audioVar = makeVar({} as AudioFragment)
