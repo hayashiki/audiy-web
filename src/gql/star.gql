@@ -1,0 +1,31 @@
+fragment Star on Star {
+    id
+    user {
+        ...User
+    }
+    audio {
+        ...Audio
+    }
+    createdAt
+    updatedAt
+}
+
+fragment CreateStar on Mutation {
+    createStar(input: {audioID: $audioID}) {
+        ...Star
+    }
+}
+
+fragment DeleteStar on Mutation {
+    deleteStar(input: {audioID: $audioID}) {
+        ...Star
+    }
+}
+
+mutation CreateStar($audioID: ID!) {
+    ...CreateStar
+}
+
+mutation DeleteStar($audioID: ID!) {
+    ...DeleteStar
+}

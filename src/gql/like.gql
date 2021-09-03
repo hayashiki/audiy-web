@@ -1,0 +1,31 @@
+fragment Like on Like {
+    id
+    user {
+        ...User
+    }
+    audio {
+        ...Audio
+    }
+    createdAt
+    updatedAt
+}
+
+fragment CreateLike on Mutation {
+    createLike(input: {audioID: $audioID}) {
+        ...Like
+    }
+}
+
+fragment DeleteLike on Mutation {
+    deleteLike(input: {audioID: $audioID}) {
+        ...Like
+    }
+}
+
+mutation CreateLike($audioID: ID!) {
+    ...CreateLike
+}
+
+mutation DeleteLike($audioID: ID!) {
+    ...DeleteLike
+}

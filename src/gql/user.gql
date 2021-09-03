@@ -1,0 +1,16 @@
+fragment User on User {
+    id
+    name
+    email
+    photoURL
+}
+
+fragment CreateUser on Mutation {
+    createUser(input: {id: $id, name: $name, email: $email}) {
+        ...User
+    }
+}
+
+mutation CreateUser($id: ID!, $name: String!, $email: String!) {
+    ...CreateUser
+}
