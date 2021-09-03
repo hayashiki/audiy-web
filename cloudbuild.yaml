@@ -1,0 +1,35 @@
+steps:
+  - name: node:15
+    entrypoint: yarn
+    env: &env
+      - 'NEXT_PUBLIC_GQL_URL=$_NEXT_PUBLIC_GQL_URL'
+      - 'NEXT_PUBLIC_GOOGLE_CLIENT_ID=$_NEXT_PUBLIC_GOOGLE_CLIENT_ID'
+      - 'NODE_ENV=$_NODE_ENV'
+      - 'REVISION_ID=$REVISION_ID'
+  - name: node:15 # https://zenn.dev/catnose99/articles/353664a9fe1f0f
+    entrypoint: yarn
+    args: ["install"]
+  - name: "gcr.io/cloud-builders/gcloud"
+    entrypoint: 'sh'
+    args:
+      - "-c"
+      - |
+        cat << EOF > secret.yaml
+        env_variables:
+          NEXT_PUBLIC_GQL_URL: $_NEXT_PUBLIC_GQL_URL
+          NEXT_PUBLIC_GOOGLE_CLIENT_ID: $_NEXT_PUBLIC_GOOGLE_CLIENT_ID
+          NODE_ENV: $_NODE_ENV
+          REVISION_ID: $REVISION_ID
+        EOF
+  - name: node:15
+    entrypoint: yarn
+    args: ["build"]
+    env: *env
+  - name: gcr.io/cloud-builders/gcloud
+    args:
+      - "app"
+      - "deploy"
+      - "app.yaml"
+      - "--project=$PROJECT_ID"
+      - "--quiet"
+timeout: 2000s
