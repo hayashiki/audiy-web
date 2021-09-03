@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@/*": [
-        "src/*"
-      ]
-    },
+    "baseUrl": "./src",                       /* Base directory to resolve non-absolute module names. */
+    "paths": {      "@/*": ["*"]},
     "target": "es2020",
     "skipLibCheck": true,
     "strict": true,
