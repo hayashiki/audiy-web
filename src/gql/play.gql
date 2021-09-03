@@ -1,0 +1,21 @@
+fragment Play on Play {
+    id
+    user {
+        ...User
+    }
+    audio {
+        ...Audio
+    }
+    createdAt
+    updatedAt
+}
+
+fragment CreatePlay on Mutation {
+    createPlay(input: {audioID: $audioID}) {
+        ...Play
+    }
+}
+
+mutation CreatePlay($audioID: ID!) {
+    ...CreatePlay
+}

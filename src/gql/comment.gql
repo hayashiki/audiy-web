@@ -1,0 +1,51 @@
+fragment Comments on Query {
+    comments(
+        audioID: $audioID,
+        cursor: $cursor,
+        limit: $limit,
+    ) {
+        pageInfo {
+            ...PageInfo
+        }
+        edges {
+            node {
+                ...Comment
+            }
+            ...CommentEdges
+        }
+    }
+}
+
+fragment CommentEdges on CommentEdge {
+    node {
+        ...Comment
+    }
+}
+
+fragment Comment on Comment {
+    id
+    user {
+        ...User
+    }
+    body
+    audio {
+        id
+    }
+    createdAt
+    updatedAt
+}
+
+fragment CreateComment on Mutation {
+    createComment(input: {audioID: $audioID, body: $body}) {
+        ...Comment
+    }
+}
+
+query Comments($audioID: ID!, $cursor: Cursor!, $limit: Int) {
+    ...Comments
+}
+
+mutation CreateComment($audioID: ID!, $body: String!) {
+    ...CreateComment
+}
+
