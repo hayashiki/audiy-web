@@ -1,6 +1,6 @@
-import 'nprogress/nprogress.css'
-import NProgress from 'nprogress'
 import Router from 'next/router'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 
 export const configureNProgress = () => {
   Router.events.on('routeChangeStart', () => NProgress.start())
@@ -10,4 +10,4 @@ export const configureNProgress = () => {
   })
   Router.events.on('routeChangeError', () => NProgress.done())
   NProgress.configure({ showSpinner: false })
-};
+}
