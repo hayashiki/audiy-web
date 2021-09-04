@@ -20,7 +20,8 @@ const getTheme = (mode: any) =>
 
 export const light = {
   alternate: {
-    main: 'rgb(247, 249, 250)',
+    // main: 'rgb(247, 249, 250)',
+    main: 'rgb(241, 243, 246)',
     dark: '#e8eaf6',
   },
   cardShadow: 'rgba(23, 70, 161, .11)',

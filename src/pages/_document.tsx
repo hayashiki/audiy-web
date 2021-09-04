@@ -3,9 +3,9 @@
  *
  * You may delete this file and its occurrences from the project filesystem if you are using GatsbyJS or react-scripts version
  */
-import React from 'react'
-import Document, { Html, Head, Main, NextScript } from 'next/document'
 import { ServerStyleSheets } from '@material-ui/core/styles'
+import Document, { Html, Head, Main, NextScript } from 'next/document'
+import React from 'react'
 
 export default class MyDocument extends Document {
   render() {
