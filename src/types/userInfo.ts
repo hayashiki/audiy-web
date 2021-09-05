@@ -3,8 +3,6 @@
   name: string
   email: string
   imageUrl: string
-  // TODO: 消す
-  idToken: string
 }
 
 export const ConvertToUser = (profile: gapi.auth2.BasicProfile) => {

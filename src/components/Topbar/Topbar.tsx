@@ -1,13 +1,17 @@
-import React, { MouseEvent, useState } from 'react'
 import { AppBar, Box, IconButton, Toolbar, makeStyles } from '@material-ui/core'
 import Avatar from '@material-ui/core/Avatar'
-import Typography from '@material-ui/core/Typography'
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
+import Typography from '@material-ui/core/Typography'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
+import { useRouter } from 'next/router'
+import React, { MouseEvent, useState } from 'react'
+
+import useGoogleAuth from '@/hooks/useLogin'
 import { useMenu } from '@/hooks/useMenu'
+import { UserInfo } from '@/types/userInfo'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,31 +46,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const TopBar = (): JSX.Element => {
+export type TopBarProps = {
+  userInfo: UserInfo
+}
+
+const TopBar = ({ userInfo }: TopBarProps): JSX.Element => {
   const classes = useStyles()
   const [anchorEl, menuOpen, openMenu, closeMenu] = useMenu()
 
-  const viewer = {
-    name: 'hoge',
-    photo: 'https://avatars.githubusercontent.com/u/3266316?s=60&v=4',
-    email: 'email',
+  const { signOut } = useGoogleAuth()
+  const router = useRouter()
+  const signOutProcess = async () => {
+    await signOut()
+    await router.push('/login')
   }
-
-  const initials = 'https://avatars.githubusercontent.com/u/3266316?s=60&v=4'
-
-  const userInfo = (
+  const userInfoView = (
     <div className={classes.userInfoContainer}>
       <div className={classes.userInfo}>
-        <Avatar className={classes.avatar} src={viewer.photo}>
-          {!viewer.photo && initials}
-        </Avatar>
+        <Avatar className={classes.avatar} src={userInfo.imageUrl} />
         <div className={classes.userCaption}>
-          <Typography variant="body1">{viewer.name}</Typography>
-          <Typography variant="caption">{viewer.email}</Typography>
+          <Typography variant="body1">{userInfo.name}</Typography>
+          <Typography variant="caption">{userInfo.email}</Typography>
         </div>
       </div>
       <IconButton
-        className={classes.userButton}
+        // className={classes.userButton}
         aria-label="menu"
         aria-controls="user-menu"
         aria-haspopup="true"
@@ -82,7 +86,7 @@ const TopBar = (): JSX.Element => {
         <MenuItem
           onClick={() => {
             closeMenu()
-            window.location.href = '/auth/logout'
+            signOutProcess()
           }}
         >
           <ExitToAppIcon className={classes.userMenuIcon} /> Logout
@@ -97,8 +101,8 @@ const TopBar = (): JSX.Element => {
         <Typography variant="h6" noWrap>
           Audiy
         </Typography>
-        <Box flexGrow={1} />
-        {userInfo}
+        <span style={{ flex: 1 }} />
+        {userInfoView}
       </Toolbar>
     </AppBar>
   )

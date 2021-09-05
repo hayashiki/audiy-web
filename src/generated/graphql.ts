@@ -118,6 +118,7 @@ export type CreateUserInput = {
   id: Scalars['ID']
   email: Scalars['String']
   name: Scalars['String']
+  photoURL: Scalars['String']
 }
 
 export type DeleteCommentResult = {
@@ -178,6 +179,7 @@ export enum FeedEvent {
   Unstared = 'UNSTARED',
   Liked = 'LIKED',
   Unliked = 'UNLIKED',
+  All = 'ALL',
 }
 
 export type FeedFilter = {
@@ -572,8 +574,9 @@ export type CreateUserFragment = { __typename?: 'Mutation' } & {
 
 export type CreateUserMutationVariables = Exact<{
   id: Scalars['ID']
-  name: Scalars['String']
   email: Scalars['String']
+  name: Scalars['String']
+  photoURL: Scalars['String']
 }>
 
 export type CreateUserMutation = { __typename?: 'Mutation' } & CreateUserFragment
@@ -814,7 +817,7 @@ export const DeleteStarFragmentDoc = gql`
 `
 export const CreateUserFragmentDoc = gql`
   fragment CreateUser on Mutation {
-    createUser(input: { id: $id, name: $name, email: $email }) {
+    createUser(input: { id: $id, email: $email, name: $name, photoURL: $photoURL }) {
       ...User
     }
   }
@@ -1246,7 +1249,7 @@ export type DeleteStarMutationOptions = Apollo.BaseMutationOptions<
   DeleteStarMutationVariables
 >
 export const CreateUserDocument = gql`
-  mutation CreateUser($id: ID!, $name: String!, $email: String!) {
+  mutation CreateUser($id: ID!, $email: String!, $name: String!, $photoURL: String!) {
     ...CreateUser
   }
   ${CreateUserFragmentDoc}
@@ -1270,8 +1273,9 @@ export type CreateUserMutationFn = Apollo.MutationFunction<
  * const [createUserMutation, { data, loading, error }] = useCreateUserMutation({
  *   variables: {
  *      id: // value for 'id'
- *      name: // value for 'name'
  *      email: // value for 'email'
+ *      name: // value for 'name'
+ *      photoURL: // value for 'photoURL'
  *   },
  * });
  */

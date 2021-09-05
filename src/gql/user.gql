@@ -6,11 +6,11 @@ fragment User on User {
 }
 
 fragment CreateUser on Mutation {
-    createUser(input: {id: $id, name: $name, email: $email}) {
+    createUser(input: {id: $id, email: $email, name: $name, photoURL: $photoURL}) {
         ...User
     }
 }
 
-mutation CreateUser($id: ID!, $name: String!, $email: String!) {
+mutation CreateUser($id: ID!, $email: String!, $name: String!, $photoURL: String!) {
     ...CreateUser
 }
