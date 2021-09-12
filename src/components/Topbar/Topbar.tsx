@@ -15,6 +15,8 @@ import { UserInfo } from '@/types/userInfo'
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    // TODO: 黒に近い色にしたくもある
+    // backgroundColor: 'rgb(51, 51, 51)',
     borderBottom: `1px solid ${theme.palette.divider}`,
   },
   avatar: {
