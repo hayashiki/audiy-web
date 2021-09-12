@@ -24,6 +24,7 @@
     "@material-ui/lab": "^4.0.0-alpha.58",
     "clsx": "^1.1.1",
     "dotenv": "^10.0.0",
+    "firebase": "^9.0.1",
     "formik": "^2.2.9",
     "graphql": "^15.5.1",
     "next": "11.0.1",
