@@ -54,6 +54,7 @@ export const useFeedQueryHooks = (sort: AudioOrder, filter: FeedEvent | null) =>
 
   const fetchMore = async () => {
     setFetchingMore(true)
+
     return fetchMoreFn({
       variables: {
         cursor: cursor,

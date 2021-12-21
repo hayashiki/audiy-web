@@ -7,8 +7,6 @@ import FormikSubmitButton from '@/components/Form/FormikSubmitButton'
 import FormikTextArea from '@/components/Form/FormikTextArea'
 import { CreateCommentInput } from '@/generated/graphql'
 
-export type SubmitHandler<Values> = (values: Values, bag: FormikHelpers<Values>) => Promise<any>
-
 type CommentFormProps = {
   initValues: CreateCommentInput
   onSubmit: (data: CreateCommentInput) => Promise<any>

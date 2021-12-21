@@ -34,3 +34,12 @@ yarn-error.log*
 .vercel
 secret.yaml
 schema.graphql
+
+public/firebase-messaging-sw.js
+
+# Sentry
+.sentryclirc
+
+**/public/workbox-*.js*
+**/public/sw.js*
+**/public/worker-*.js*
