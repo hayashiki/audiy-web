@@ -1,17 +1,9 @@
-import { Avatar, Box, Divider, Fab, Grid, TextField, Typography } from '@material-ui/core'
+import { Avatar, Divider, Grid, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import SendIcon from '@material-ui/icons/Send'
-import { NextPage } from 'next'
 import React from 'react'
 
 import CommentForm from '@/components/Comment/Form'
-import FormikTextArea from '@/components/Form/FormikTextArea'
-import {
-  AudioFragment,
-  CommentFragment,
-  CreateCommentInput,
-  useCreateCommentMutation,
-} from '@/generated/graphql'
+import { AudioFragment, CommentFragment, CreateCommentInput } from '@/generated/graphql'
 import { useCommentMutationHook } from '@/hooks/useComment'
 
 // set component styles
