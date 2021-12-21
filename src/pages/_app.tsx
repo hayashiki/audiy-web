@@ -1,4 +1,3 @@
-import { ApolloProvider } from '@apollo/client'
 import { CssBaseline } from '@material-ui/core'
 import { ThemeProvider } from '@material-ui/styles'
 import { AppProps } from 'next/app'
@@ -7,17 +6,19 @@ import { useRouter } from 'next/router'
 import React from 'react'
 
 import { Loading } from '@/components/Common/Loading'
+import Messaging from '@/components/Messaging/messaging'
 import ToolbarBottomLine from '@/components/Topbar/ToolbarLine'
 import TopBar from '@/components/Topbar/Topbar'
+import { AuthedApolloProvider } from '@/context/AuthorizedApolloClient'
 import useGoogleAuth from '@/hooks/useLogin'
-import { useApollo } from '@/lib/apollo'
+import '@/lib/firebase'
 import { configureNProgress } from '@/lib/ngprogressConfig'
 import getTheme from '@/theme'
-import { ConvertToUser, UserInfo } from '@/types/userInfo'
+import Sentry from '@/components/Sentry/Sentry'
 
 configureNProgress()
 
-function App(appProps: AppProps): JSX.Element {
+function App({ Component, pageProps }: AppProps): JSX.Element {
   const router = useRouter()
 
   React.useEffect(() => {
@@ -76,30 +77,42 @@ function App(appProps: AppProps): JSX.Element {
         <title>audiy</title>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
-      <UseApollo userInfo={googleUser!} googleAuth={googleAuth!} {...appProps} />
+      {/*<UseApollo userInfo={googleUser!} googleAuth={googleAuth!} {...appProps} />*/}
+      <Messaging />
+      <AuthedApolloProvider>
+        <ThemeProvider theme={getTheme('light')}>
+          <CssBaseline />
+          <Sentry userInfo={googleUser!}/>
+          {router.pathname !== '/login' && <TopBar userInfo={googleUser!} />}
+          <ToolbarBottomLine />
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </AuthedApolloProvider>
     </React.Fragment>
   )
 }
 
 export default App
-
-function UseApollo({
-  userInfo,
-  googleAuth,
-  Component,
-  pageProps,
-}: AppProps & { userInfo: UserInfo; googleAuth: gapi.auth2.GoogleAuth }) {
-  const apolloClient = useApollo(pageProps.initialApolloState, googleAuth)
-  const router = useRouter()
-
-  return (
-    <ApolloProvider client={apolloClient}>
-      <ThemeProvider theme={getTheme('light')}>
-        <CssBaseline />
-        {router.pathname !== '/login' && <TopBar userInfo={userInfo} />}
-        <ToolbarBottomLine />
-        <Component {...pageProps} />
-      </ThemeProvider>
-    </ApolloProvider>
-  )
-}
+//
+// function UseApollo({
+//   userInfo,
+//   googleAuth,
+//   Component,
+//   pageProps,
+// }: AppProps & { userInfo: UserInfo; googleAuth: gapi.auth2.GoogleAuth }) {
+//   const apolloClient = useApollo(pageProps.initialApolloState, googleAuth)
+//   const router = useRouter()
+//
+//   return (
+//     // <ApolloProvider client={apolloClient}>
+//       <AuthedApolloProvider>
+//         <ThemeProvider theme={getTheme('light')}>
+//           <CssBaseline />
+//           {router.pathname !== '/login' && <TopBar userInfo={userInfo} />}
+//           <ToolbarBottomLine />
+//           <Component {...pageProps} />
+//         </ThemeProvider>
+//       </AuthedApolloProvider>
+//     // </ApolloProvider>
+//   )
+// }
