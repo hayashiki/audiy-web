@@ -28,7 +28,7 @@ const TopBarProps = {
 
 const Template: Story = (args) => (
   <div className="h-16 bg-white">
-    <TopBar userInfo={args.userInfo} />
+    <TopBar userDTO={args.userInfo} />
   </div>
 )
 

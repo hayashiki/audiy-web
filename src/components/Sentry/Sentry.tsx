@@ -1,20 +1,22 @@
 import * as sentry from '@sentry/browser'
 import { useEffect } from 'react'
 
-import { UserInfo } from '@/types/userInfo'
+import { UserDTO, UserInfo } from '@/types/userInfo'
 
 export type SentryProps = {
-  userInfo: UserInfo
+  userDTO: UserDTO
 }
 
-const Sentry: ({ userInfo }: SentryProps) => null = ({ userInfo }: SentryProps) => {
+const Sentry: ({ userDTO }: SentryProps) => null = ({ userDTO }: SentryProps) => {
   useEffect(() => {
-    sentry.setUser({
-      id: userInfo.id,
-      email: userInfo.email,
-      username: userInfo.name,
-    })
-  }, [userInfo])
+    if (userDTO.name && userDTO.email) {
+      sentry.setUser({
+        id: userDTO.uid,
+        email: userDTO.email,
+        username: userDTO.name,
+      })
+    }
+  }, [userDTO])
 
   return null
 }

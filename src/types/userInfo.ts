@@ -1,15 +1,18 @@
-﻿export type UserInfo = {
+﻿import { User } from 'firebase/auth'
+
+export type UserInfo = {
   id: string
   name: string
   email: string
   imageUrl: string
 }
 
-export const ConvertToUser = (profile: gapi.auth2.BasicProfile) => {
-  return {
-    id: profile.getId(),
-    name: profile.getName(),
-    email: profile.getEmail(),
-    imageUrl: profile.getImageUrl(),
-  } as UserInfo
+export type UserDTO = {
+  uid: string
+  email: string | null
+  name: string | null
+  provider: string
+  photoURL: string | undefined
 }
+
+export type FirebaseUser = User | null

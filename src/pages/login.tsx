@@ -9,9 +9,9 @@ import React from 'react'
 import { GoogleLoginButton } from 'react-social-login-buttons'
 
 import { Loading } from '@/components/Common/Loading'
+import { useAuth } from '@/context/AuthContext'
 import { useCreateUserMutation } from '@/generated/graphql'
-import useLogin from '@/hooks/useLogin'
-import { ConvertToUser } from '@/types/userInfo'
+import { UserMapper } from '@/lib/firebase/firebase'
 
 // set component styles
 const useStyles = makeStyles((theme) => ({
@@ -39,24 +39,15 @@ const SignUp: React.FC = () => {
   const router = useRouter()
   const [createUser] = useCreateUserMutation()
 
-  const { isSignedIn, signIn } = useLogin()
+  const { isAuthenticated, signInWithGoogle } = useAuth()
 
-  if (isSignedIn) {
-    router.push('/')
-    return <Loading />
-  }
+  // if (isAuthenticated) {
+  //   router.push('/')
+  //   return <Loading />
+  // }
 
   const signInProcess = async () => {
-    const profile = await signIn()
-    const userInfo = ConvertToUser(profile.getBasicProfile())
-    await createUser({
-      variables: {
-        id: userInfo.id,
-        email: userInfo.email,
-        name: userInfo.name,
-        photoURL: userInfo.imageUrl,
-      },
-    })
+    await signInWithGoogle('/')
     await router.push('/')
   }
 
