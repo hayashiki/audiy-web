@@ -14,6 +14,7 @@ export const NEXT_PUBLIC_FIREBASE_APP_ID = publicRuntimeConfig.NEXT_PUBLIC_FIREB
 export const NEXT_PUBLIC_FIREBASE_PROJECT_ID = publicRuntimeConfig.NEXT_PUBLIC_FIREBASE_PROJECT_ID
 export const NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID =
   publicRuntimeConfig.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
+export const NEXT_PUBLIC_FIREBASE_VAPID = publicRuntimeConfig.NEXT_PUBLIC_FIREBASE_VAPID
 
 export const REVISION_ID = publicRuntimeConfig.REVISION_ID
 export const VERSION = publicRuntimeConfig.VERSION

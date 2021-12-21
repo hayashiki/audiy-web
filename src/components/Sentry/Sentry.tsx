@@ -8,7 +8,6 @@ export type SentryProps = {
 }
 
 const Sentry: ({ userInfo }: SentryProps) => null = ({ userInfo }: SentryProps) => {
-
   useEffect(() => {
     sentry.setUser({
       id: userInfo.id,

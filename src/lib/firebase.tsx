@@ -1,20 +1,9 @@
-import {
-  Analytics,
-  getAnalytics,
-  setAnalyticsCollectionEnabled,
-} from 'firebase/analytics';
-import { initializeApp } from 'firebase/app';
-import {
-  Auth,
-  AuthProvider,
-  FacebookAuthProvider,
-  getAuth,
-  GithubAuthProvider,
-  GoogleAuthProvider,
-  TwitterAuthProvider,
-} from 'firebase/auth';
-import React, { createContext } from 'react';
-import { FirebasePerformance, getPerformance } from 'firebase/performance';
+import { Analytics, getAnalytics, setAnalyticsCollectionEnabled } from 'firebase/analytics'
+import { initializeApp, getApps } from 'firebase/app'
+import { Auth, AuthProvider, getAuth, GoogleAuthProvider } from 'firebase/auth'
+import { FirebasePerformance, getPerformance } from 'firebase/performance'
+import { FirebaseStorage, getStorage } from 'firebase/storage'
+import React, { createContext } from 'react'
 
 import {
   NEXT_PUBLIC_FIREBASE_BUCKET_NAME,
@@ -35,65 +24,44 @@ const config = {
   appId: NEXT_PUBLIC_FIREBASE_APP_ID,
   measurementId: NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 }
-const app = initializeApp(config);
+
+// const app = initializeApp(config)
+const app = !getApps.length ? initializeApp(config) : getApps()
 
 interface Firebase {
-  analytics: Analytics;
-  auth: Auth;
+  // analytics: Analytics
+  auth: Auth
+  storage: FirebaseStorage
   authProviders: {
-    facebook: AuthProvider;
-    github: AuthProvider;
-    google: AuthProvider;
-    twitter: AuthProvider;
-  };
-  performance: FirebasePerformance;
+    google: AuthProvider
+  }
+  // performance: FirebasePerformance
 }
 
 const value: Firebase = {
-  analytics: getAnalytics(app),
+  // analytics: getAnalytics(app),
   auth: getAuth(),
+  storage: getStorage(),
   authProviders: {
-    facebook: (() => {
-      // https://firebase.google.com/docs/auth/web/facebook-login
-      const p = new FacebookAuthProvider();
-      p.addScope('email');
-      return p;
-    })(),
-    github: (() => {
-      // https://firebase.google.com/docs/auth/web/github-auth
-      const p = new GithubAuthProvider();
-      p.addScope('user');
-      return p;
-    })(),
     google: (() => {
       // https://firebase.google.com/docs/auth/web/google-signin
-      const p = new GoogleAuthProvider();
-      p.addScope('profile');
-      p.addScope('email');
-      return p;
-    })(),
-    twitter: (() => {
-      // https://firebase.google.com/docs/auth/web/twitter-login
-      return new TwitterAuthProvider();
+      const p = new GoogleAuthProvider()
+      p.addScope('profile')
+      p.addScope('email')
+      return p
     })(),
   },
-  performance: getPerformance(app),
-};
-
-if (process.env.NODE_ENV !== 'production') {
-  setAnalyticsCollectionEnabled(value.analytics, false);
+  // performance: getPerformance(app),
 }
 
-export const FirebaseContext = createContext<Firebase>(value);
+// if (process.env.NODE_ENV !== 'production') {
+//   setAnalyticsCollectionEnabled(value.analytics, false)
+// }
 
-const Firebase: React.FC = ({ children }) => {
-  return (
-    
-  )
-}
-  <FirebaseContext.Provider value={value}>
-    {children}
-  </FirebaseContext.Provider>
+export const FirebaseContext = createContext<Firebase>(value)
+
+const FirebaseProvider: React.FC = ({ children }) => (
+  <FirebaseContext.Provider value={value}>{children}</FirebaseContext.Provider>
 )
 
-export default Firebase;
+export default FirebaseProvider

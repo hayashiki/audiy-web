@@ -3,7 +3,7 @@ import SortIcon from '@material-ui/icons/SortTwoTone'
 import { useRouter } from 'next/router'
 import { ReactEventHandler, useState } from 'react'
 
-import { AudioOrder, FeedEvent } from '@/generated/graphql'
+import { AudioOrder } from '@/generated/graphql'
 
 type FilterOption<V> = {
   title: string
