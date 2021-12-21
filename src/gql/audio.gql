@@ -17,6 +17,12 @@ fragment Audios on Query {
   }
 }
 
+fragment GetAudio on Query {
+  audio(id: $id) {
+    ...Audio
+  }
+}
+
 fragment AudioEdges on AudioEdge {
   node {
     ...Audio
@@ -32,12 +38,36 @@ fragment Audio on Audio {
   likeCount
   commentCount
   publishedAt
-  likeCount
+  transcribed
 }
 
+# GetAudiosのほうがよいかな・・・
 query Audios($cursor: Cursor!, $filter: AudioFilter, $limit: Int, $order: AudioOrder) {
   ...Audios
-#  version {
-#    version
-#  }
+}
+
+query GetAudio($id: ID!) {
+  ...GetAudio
+}
+
+fragment UploadAudio on Mutation {
+  uploadAudio(input: {file: $file, description: $description}) {
+    ...Audio
+  }
+}
+
+mutation CreateAudio($id: ID!, $name: String!, $url: String!, $mimetype: String!, $length: Float!) {
+  createAudio(input: {id: $id, name: $name, url: $url, mimetype: $mimetype, length: $length}) {
+    ...Audio
+  }
+}
+
+mutation UploadAudio($file: Upload!, $description: String!) {
+  ...UploadAudio
+}
+
+mutation CreateTranscript($id: ID!) {
+  createTranscript(input: {audioID: $id}) {
+    id
+  }
 }

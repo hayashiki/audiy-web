@@ -2,6 +2,8 @@ schema: 'schema.graphql'
 documents:
   - ./src/**/*.graphql
   - ./src/**/*.gql
+#  - |
+#    scalar Upload
 overwrite: true
 generates:
   ./src/generated/graphql.ts:
