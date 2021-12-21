@@ -7,6 +7,8 @@ import { ServerStyleSheets } from '@material-ui/core/styles'
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 import React from 'react'
 
+import Meta from '@/components/Head/head'
+
 export default class MyDocument extends Document {
   render() {
     return (
@@ -26,16 +28,11 @@ export default class MyDocument extends Document {
             name="robots"
             content="max-snippet:-1, max-image-preview:large, max-video-preview:-1"
           />
-          <meta property="og:locale" content="ja_JP" />
-          <meta property="og:type" content="website" />
-          <meta property="og:image" content="" />
-          <meta property="og:title" content="" />
-          <meta property="og:description" content="" />
-          <meta property="og:url" content="" />
           <link
             href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i&display=swap"
             rel="stylesheet"
           />
+          <Meta />
           <script src="https://kit.fontawesome.com/4c273e6d43.js" crossOrigin="anonymous" />
         </Head>
         <body>

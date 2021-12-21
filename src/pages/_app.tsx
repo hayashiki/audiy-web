@@ -6,15 +6,18 @@ import { useRouter } from 'next/router'
 import React from 'react'
 
 import { Loading } from '@/components/Common/Loading'
+import Meta from '@/components/Head/head'
 import Messaging from '@/components/Messaging/messaging'
+import Notification from '@/components/Notification/Notification'
+import Sentry from '@/components/Sentry/Sentry'
 import ToolbarBottomLine from '@/components/Topbar/ToolbarLine'
 import TopBar from '@/components/Topbar/Topbar'
 import { AuthedApolloProvider } from '@/context/AuthorizedApolloClient'
 import useGoogleAuth from '@/hooks/useLogin'
 import '@/lib/firebase'
+import FirebaseProvider, { FirebaseContext } from '@/lib/firebase'
 import { configureNProgress } from '@/lib/ngprogressConfig'
 import getTheme from '@/theme'
-import Sentry from '@/components/Sentry/Sentry'
 
 configureNProgress()
 
@@ -37,6 +40,7 @@ function App({ Component, pageProps }: AppProps): JSX.Element {
         <Head>
           <title>audiy</title>
           <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
+          <Meta />
         </Head>
         <div
           style={{
@@ -75,19 +79,27 @@ function App({ Component, pageProps }: AppProps): JSX.Element {
     <React.Fragment>
       <Head>
         <title>audiy</title>
-        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
+        <meta
+          name="viewport"
+          content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
+        />
+        <Meta />
       </Head>
       {/*<UseApollo userInfo={googleUser!} googleAuth={googleAuth!} {...appProps} />*/}
       <Messaging />
-      <AuthedApolloProvider>
-        <ThemeProvider theme={getTheme('light')}>
-          <CssBaseline />
-          <Sentry userInfo={googleUser!}/>
-          {router.pathname !== '/login' && <TopBar userInfo={googleUser!} />}
-          <ToolbarBottomLine />
-          <Component {...pageProps} />
-        </ThemeProvider>
-      </AuthedApolloProvider>
+      <FirebaseProvider>
+        <AuthedApolloProvider>
+          <Notification>
+            <ThemeProvider theme={getTheme('light')}>
+              <CssBaseline />
+              <Sentry userInfo={googleUser!} />
+              {router.pathname !== '/login' && <TopBar userInfo={googleUser!} />}
+              <ToolbarBottomLine />
+              <Component {...pageProps} />
+            </ThemeProvider>
+          </Notification>
+        </AuthedApolloProvider>
+      </FirebaseProvider>
     </React.Fragment>
   )
 }

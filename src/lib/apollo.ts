@@ -3,14 +3,14 @@ import {
   ApolloLink,
   HttpLink,
   InMemoryCache,
-  makeVar,
   NormalizedCacheObject,
   Observable,
 } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
+import * as sentry from '@sentry/browser'
+import { createUploadLink } from 'apollo-upload-client'
 import { useMemo } from 'react'
 
-import { AudioFragment } from '@/generated/graphql'
 import { NEXT_PUBLIC_GQL_URL } from '@/lib/config'
 
 let apolloClient: ApolloClient<NormalizedCacheObject>
@@ -25,7 +25,25 @@ export const gqlServerURL = () => {
   return NEXT_PUBLIC_GQL_URL
 }
 
-const httpLink = (token?: string) => {
+const httpLink = new HttpLink({
+  uri: `${gqlServerURL()}/query`,
+  // credentials: 'same-origin',
+})
+
+const getAccessToken = () => {
+  return gapi.auth2?.getAuthInstance()?.currentUser.get().getAuthResponse(true).id_token
+}
+
+const httpLink2 = (token: string) => {
+  return createUploadLink({
+    uri: `${gqlServerURL()}/query`,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+}
+
+const uploadLink2 = (token?: string) => {
   // const id_token = gapi.auth2?.getAuthInstance()?.currentUser.get().getAuthResponse(true).id_token
 
   return new HttpLink({
@@ -36,8 +54,34 @@ const httpLink = (token?: string) => {
   })
 }
 
+const uploadLink = (token?: string) => {
+  return createUploadLink({
+    ...httpLink,
+    fetch(uri: string, opts: any) {
+      // enforce our JSON headers
+      delete opts.headers['accept']
+      delete opts.headers['content-type']
+
+      opts.headers['Accept'] = opts.headers['Content-Type'] = 'application/json'
+      opts.headers['Authorization'] = `Bearer ` + token
+
+      // return our fetch
+      return fetch(`${gqlServerURL()}/query`, opts)
+    },
+  })
+}
+
 const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) => {
   if (graphQLErrors) {
+    sentry.captureException(null, {
+      level: sentry.Severity.Critical,
+      extra: {
+        networkError,
+        graphQLErrors,
+        operation,
+      },
+    })
+
     // User access token has expired
     graphQLErrors.forEach(({ extensions, message, locations, path }) => {
       console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`)
@@ -78,10 +122,6 @@ const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) 
     })
   }
 })
-
-const getAccessToken = () => {
-  return gapi.auth2?.getAuthInstance()?.currentUser.get().getAuthResponse(true).id_token
-}
 
 const requestLink = new ApolloLink(
   (operation, forward) =>
@@ -135,7 +175,9 @@ export function createApolloClient(googleAuth?: gapi.auth2.GoogleAuth) {
         }),
         errorLink,
         requestLink,
-        httpLink(googleAuth?.currentUser.get().getAuthResponse(true).id_token),
+        httpLink,
+        // httpLink2(googleAuth?.currentUser.get().getAuthResponse(true).id_token),
+        // uploadLink(googleAuth?.currentUser.get().getAuthResponse(true).id_token),
       ]),
       cache: new InMemoryCache(),
     })
