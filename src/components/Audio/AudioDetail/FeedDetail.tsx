@@ -30,8 +30,8 @@ type SimpleAudioProps = {
   onSelect: (activeAudio: AudioFragment) => void
   state: HTMLMediaState
   controls: HTMLMediaControls
-  starUpdate: (id: string, exists: boolean) => void
-  likeUpdate: (id: string, exists: boolean) => void
+  toggleStar: (id: string, exists: boolean) => void
+  toggleLike: (id: string, exists: boolean) => void
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -92,8 +92,8 @@ export const AudioDetail = ({
   onSelect,
   state,
   controls,
-  starUpdate,
-  likeUpdate,
+  toggleStar,
+  toggleLike,
 }: SimpleAudioProps) => {
   const classes = useStyles()
   const renderButton = (isPlaying?: boolean) => {
@@ -129,7 +129,7 @@ export const AudioDetail = ({
     <Button
       onClick={(e) => {
         e.stopPropagation()
-        likeUpdate(feed.audio.id, feed.liked)
+        toggleLike(feed.audio.id, feed.liked)
       }}
       size="small"
     >
@@ -149,7 +149,7 @@ export const AudioDetail = ({
     <Button
       onClick={(e) => {
         e.stopPropagation()
-        starUpdate(feed.audio.id, feed.stared)
+        toggleStar(feed.audio.id, feed.stared)
       }}
       size="small"
     >

@@ -11,7 +11,7 @@ import React from 'react'
 
 import useGoogleAuth from '@/hooks/useLogin'
 import { useMenu } from '@/hooks/useMenu'
-import { UserInfo } from '@/types/userInfo'
+import { UserDTO, UserInfo } from '@/types/userInfo'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,10 +49,10 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export type TopBarProps = {
-  userInfo: UserInfo
+  userDTO: UserDTO
 }
 
-const TopBar = ({ userInfo }: TopBarProps): JSX.Element => {
+const TopBar = ({ userDTO }: TopBarProps): JSX.Element => {
   const classes = useStyles()
   const [anchorEl, menuOpen, openMenu, closeMenu] = useMenu()
 
@@ -65,10 +65,10 @@ const TopBar = ({ userInfo }: TopBarProps): JSX.Element => {
   const userInfoView = (
     <div className={classes.userInfoContainer}>
       <div className={classes.userInfo}>
-        <Avatar className={classes.avatar} src={userInfo.imageUrl} />
+        <Avatar className={classes.avatar} src={userDTO.photoURL} />
         <div className={classes.userCaption}>
-          <Typography variant="body1">{userInfo.name}</Typography>
-          <Typography variant="caption">{userInfo.email}</Typography>
+          <Typography variant="body1">{userDTO.name}</Typography>
+          <Typography variant="caption">{userDTO.email}</Typography>
         </div>
       </div>
       <IconButton

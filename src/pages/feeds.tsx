@@ -5,7 +5,6 @@ import React, { useEffect } from 'react'
 
 import { Loading } from '@/components/Common/Loading'
 import AudioContainer from '@/components/SimpleAudio/AudioContainer'
-import { useCurrentUserIdTokenContext } from '@/context/CurrentUserIdToken'
 import { AudioFragment, AudioOrder, FeedEvent } from '@/generated/graphql'
 import { useFeedQueryHooks } from '@/hooks/useFeedQuery'
 
@@ -54,7 +53,6 @@ const getFilter = (filter: string | string[] | undefined) => {
 const FeedIndex: NextPage = () => {
   const router = useRouter()
   const classes = useStyles()
-  const { idToken, refresh } = useCurrentUserIdTokenContext()
 
   const {
     activeAudio,
@@ -68,22 +66,12 @@ const FeedIndex: NextPage = () => {
   } = useFeedQueryHooks(getDefaultSort(router.query.sort), getFilter(router.query.filter))
 
   const onSelect = async (r: AudioFragment) => {
-    if (refresh) {
-      refresh('jjjjj')
-    }
     await setActiveAudio(r)
   }
-
-  useEffect(() => {
-    if (refresh) {
-      refresh('jhjj')
-    }
-  }, [])
 
   return (
     <div className={classes.root}>
       <section className={classes.section}>
-        {idToken}
         {activeAudio && (
           <AudioContainer
             activeAudio={activeAudio as AudioFragment}
